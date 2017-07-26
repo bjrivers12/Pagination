@@ -11,7 +11,7 @@ const pageSize = 10;
 
 //Divide and round to get the number of pages
 function numberPages(identity) {
-  let pages = Math.ceil($(identity).length/pageSize);
+  let pages = Math.ceil($(identity).length / pageSize);
   return pages;
 }
 
@@ -30,9 +30,9 @@ showPage(1);
 
 //Function to remvoe text elements
 function removeTextElement(name) {
-   $(name).contents().filter(function () {
-     return this.nodeType === 3;
-    }).remove();
+  $(name).contents().filter(function() {
+    return this.nodeType === 3;
+  }).remove();
 }
 
 removeTextElement(".page-header");
@@ -54,7 +54,7 @@ function appendPageLinks(category) {
 //Only append page links if the number is greater than 10 and get rid of the old section regardles
 if ($(".student-item").length > pageSize) {
   appendPageLinks(".student-item");
-  } else {
+} else {
   removeTextElement(".page");
 }
 
@@ -62,27 +62,27 @@ if ($(".student-item").length > pageSize) {
 form.addEventListener('submit', function searchList(e) {
   e.preventDefault();
   let studentName = input.value.toLowerCase();
-  if (studentName  === "") {
+  if (studentName === "") {
     window.location.reload(true);
-    }
+  }
   input.value = "";
   $(".student-item div h3").each(function() {
     var s = $(this).text().toLowerCase();
-    if(s.indexOf(studentName)!=-1) {
+    if (s.indexOf(studentName) != -1) {
       $(this).parent().parent().addClass("matched");
-     } else {
+    } else {
       $(this).parent().parent().hide();
     }
   });
-  if($(".matched").length > 0) {
-      if($(".matched").length > pageSize) {
-          $(".pagination").remove();
-          appendPageLinks(".matched");
-        } else {
-        $(".pagination").remove();
-        }
-      } else {
-        $(".page-header").append("<p>No student's found</p>");
-        $(".pagination").remove();
-      }
+  if ($(".matched").length > 0) {
+    if ($(".matched").length > pageSize) {
+      $(".pagination").remove();
+      appendPageLinks(".matched");
+    } else {
+      $(".pagination").remove();
+    }
+  } else {
+    $(".page-header").append("<p>No student's found</p>");
+    $(".pagination").remove();
+  }
 });
