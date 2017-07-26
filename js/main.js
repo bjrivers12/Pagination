@@ -85,5 +85,4 @@ form.addEventListener('submit', function searchList(e) {
         $(".page-header").append("<p>No student's found</p>");
         $(".pagination").remove();
       }
-
 });
