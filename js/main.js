@@ -11,14 +11,14 @@ const pageSize = 10;
 
 //Divide and round to get the number of pages
 function numberPages(identity) {
-  let pages = Math.ceil($(identity).length / pageSize);
+  let pages = Math.ceil($(identity).length/pageSize);
   return pages;
 }
 
 ////Function to show the pages
-function showPage(page) {
-  $(".student-item").hide();
-  $(".student-item").each(function(n) {
+function showPage(page, items) {
+  $(items).hide();
+  $(items).each(function(n) {
     if (n >= pageSize * (page - 1) && n < pageSize * page) {
       $(this).show();
     }
@@ -26,13 +26,13 @@ function showPage(page) {
 }
 
 //Start with showing page 1
-showPage(1);
+showPage(1, ".student-item");
 
 //Function to remvoe text elements
 function removeTextElement(name) {
-  $(name).contents().filter(function() {
-    return this.nodeType === 3;
-  }).remove();
+   $(name).contents().filter(function () {
+     return this.nodeType === 3;
+    }).remove();
 }
 
 removeTextElement(".page-header");
@@ -46,7 +46,7 @@ function appendPageLinks(category) {
   }
   $(".pagination li a").click(function() {
     $(".pagination li a").removeClass("active");
-    showPage(parseInt($(this).text()));
+    showPage(parseInt($(this).text()),category );
     $(this).addClass("active");
   });
 }
@@ -54,7 +54,7 @@ function appendPageLinks(category) {
 //Only append page links if the number is greater than 10 and get rid of the old section regardles
 if ($(".student-item").length > pageSize) {
   appendPageLinks(".student-item");
-} else {
+  } else {
   removeTextElement(".page");
 }
 
@@ -62,27 +62,27 @@ if ($(".student-item").length > pageSize) {
 form.addEventListener('submit', function searchList(e) {
   e.preventDefault();
   let studentName = input.value.toLowerCase();
-  if (studentName === "") {
+  if (studentName  === "") {
     window.location.reload(true);
-  }
+    }
   input.value = "";
   $(".student-item div h3").each(function() {
     var s = $(this).text().toLowerCase();
-    if (s.indexOf(studentName) != -1) {
+    if(s.indexOf(studentName)!=-1) {
       $(this).parent().parent().addClass("matched");
-    } else {
+     } else {
       $(this).parent().parent().hide();
     }
   });
-  if ($(".matched").length > 0) {
-    if ($(".matched").length > pageSize) {
-      $(".pagination").remove();
-      appendPageLinks(".matched");
-    } else {
-      $(".pagination").remove();
-    }
-  } else {
-    $(".page-header").append("<p>No student's found</p>");
-    $(".pagination").remove();
-  }
+  if($(".matched").length > 0) {
+      if($(".matched").length > pageSize) {
+          $(".pagination").remove();
+          appendPageLinks(".matched");
+        } else {
+        $(".pagination").remove();
+        }
+      } else {
+        $(".page-header").append("<p>No student's found</p>");
+        $(".pagination").remove();
+      }
 });
