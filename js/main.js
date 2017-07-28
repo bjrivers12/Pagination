@@ -58,7 +58,7 @@ if ($(".student-item").length > pageSize) {
   removeTextElement(".page");
 }
 
-//button for searching
+//button for searching. Search function will append links that work
 form.addEventListener('submit', function searchList(e) {
   e.preventDefault();
   let studentName = input.value.toLowerCase();
